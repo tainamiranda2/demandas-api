@@ -37,7 +37,7 @@ class PapelTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Usuarios', [
+        $this->belongsTo('Usuario', [
             'foreignKey' => 'usuario_id',
             'joinType' => 'INNER',
         ]);
@@ -65,7 +65,8 @@ class PapelTable extends Table
             ->notEmptyString('papel_nome');
 
         $validator
-            ->integer('adm')
+            ->scalar('adm')
+            ->maxLength('adm', 3)
             ->requirePresence('adm', 'create')
             ->notEmptyString('adm');
 
@@ -81,7 +82,7 @@ class PapelTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['usuario_id'], 'Usuarios'));
+        $rules->add($rules->existsIn(['usuario_id'], 'Usuario'));
 
         return $rules;
     }

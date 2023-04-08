@@ -70,17 +70,27 @@ class DemandasController extends AppController
      */
     public function add()
     {
-        $demanda = $this->Demandas->newEntity();
-        if ($this->request->is('post')) {
-            $demanda = $this->Demandas->patchEntity($demanda, $this->request->getData());
-            if ($this->Demandas->save($demanda)) {
-                $this->Flash->success(__('The demanda has been saved.'));
+        if($this->request->is(['post','ajax','patch'])){
 
-                return $this->redirect(['action' => 'index']);
+            $demandas = $this->Demandas->newEntity();
+            $demandas = $this->Demandas->patchEntity($demandas, $this->request->getData());
+           
+                if ($this->Demandas->save($demandas)) {
+                  
+                    return $this->response
+                    
+                     ->withType('application/json')
+                     ->withStatus(200)
+                     ->withStringBody(json_encode(['msg'=>'A demanda  foi cadastrado com sucesso.']));
+                 
+                }
+                return $this->response
+                ->withStatus(404)
+                 ->withType('application/json')
+                 ->withStringBody(json_encode(['msg'=>'A demanda não foi cadastrado.']));
+              
+    
             }
-            $this->Flash->error(__('The demanda could not be saved. Please, try again.'));
-        }
-        $this->set(compact('demanda'));
     }
 
     /**

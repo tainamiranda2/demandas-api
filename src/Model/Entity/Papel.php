@@ -8,7 +8,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $papel_nome
- * @property int $adm
+ * @property string $adm
  * @property int $usuario_id
  *
  * @property \App\Model\Entity\Usuario[] $usuario

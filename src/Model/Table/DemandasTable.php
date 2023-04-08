@@ -94,7 +94,6 @@ class DemandasTable extends Table
 
         $validator
             ->dateTime('data')
-            ->requirePresence('data', 'create')
             ->notEmptyDateTime('data');
 
         return $validator;

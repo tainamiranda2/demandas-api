@@ -24,7 +24,7 @@ class DemandasFixture extends TestFixture
         'status_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'setor_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'motivo_demanda' => ['type' => 'string', 'length' => 60, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'data' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        'data' => ['type' => 'timestamp', 'length' => null, 'null' => false, 'default' => 'current_timestamp()', 'comment' => '', 'precision' => null],
         '_indexes' => [
             'usuarios_id' => ['type' => 'index', 'columns' => ['usuario_id'], 'length' => []],
             'setor_id' => ['type' => 'index', 'columns' => ['setor_id'], 'length' => []],
@@ -60,7 +60,7 @@ class DemandasFixture extends TestFixture
                 'status_id' => 1,
                 'setor_id' => 1,
                 'motivo_demanda' => 'Lorem ipsum dolor sit amet',
-                'data' => '2023-04-08 01:38:11',
+                'data' => 1680987505,
             ],
         ];
         parent::init();

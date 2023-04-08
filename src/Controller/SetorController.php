@@ -71,17 +71,28 @@ class SetorController extends AppController
      */
     public function add()
     {
-        $setor = $this->Setor->newEntity();
-        if ($this->request->is('post')) {
-            $setor = $this->Setor->patchEntity($setor, $this->request->getData());
-            if ($this->Setor->save($setor)) {
-                $this->Flash->success(__('The setor has been saved.'));
+        if($this->request->is(['post','ajax','patch'])){
 
-                return $this->redirect(['action' => 'index']);
+            $setor = $this->Setor->newEntity();
+            $setor = $this->Setor->patchEntity($setor, $this->request->getData());
+           
+                if ($this->Setor->save($setor)) {
+                  
+                    return $this->response
+                    
+                     ->withType('application/json')
+                     ->withStatus(200)
+                     ->withStringBody(json_encode(['msg'=>'O setor  foi cadastrado com sucesso.']));
+                 
+                }
+                return $this->response
+                ->withStatus(404)
+                 ->withType('application/json')
+                 ->withStringBody(json_encode(['msg'=>'O setor não foi cadastrado.']));
+              
+            
+    
             }
-            $this->Flash->error(__('The setor could not be saved. Please, try again.'));
-        }
-        $this->set(compact('setor'));
     }
 
     /**

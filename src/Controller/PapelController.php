@@ -73,26 +73,26 @@ class PapelController extends AppController
      */
     public function add()
     {
-        if($this->request->is(['ajax', 'post'])){
+        if($this->request->is(['post','ajax','patch'])){
 
-            $papel = $this->Papel->newEmptyEntity();
-            $papel = $this->Papel->patchEntity($papel, $this->request);
+            $papel = $this->Papel->newEntity();
+            $papel = $this->Papel->patchEntity($papel, $this->request->getData());
            
                 if ($this->Papel->save($papel)) {
-                   // $this->Flash->success(__('O papel foi cadastrador com sucesso.'));
+                  
                     return $this->response
                     
                      ->withType('application/json')
                      ->withStatus(200)
-                     ->withStringBody(json_encode(['msg','O papel  foi cadastrado com sucesso.']));
-                   // return $this->redirect(['action' => 'index']);
-                }else{
+                     ->withStringBody(json_encode(['msg'=>'O papel  foi cadastrado com sucesso.']));
+                 
+                }
                 return $this->response
-                ->withStatus(400)
+                ->withStatus(404)
                  ->withType('application/json')
-                 ->withStringBody(json_encode(['msg','O papel  foi cadastrado com sucesso.']));
-                //$this->Flash->error(__('The papel could not be saved. Please, try again.'));
-            }
+                 ->withStringBody(json_encode(['msg'=>'O papel não foi cadastrado.']));
+              
+            
     
             }
     }

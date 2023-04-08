@@ -71,17 +71,28 @@ class StatusController extends AppController
      */
     public function add()
     {
-        $status = $this->Status->newEntity();
-        if ($this->request->is('post')) {
-            $status = $this->Status->patchEntity($status, $this->request->getData());
-            if ($this->Status->save($status)) {
-                $this->Flash->success(__('The status has been saved.'));
+        if($this->request->is(['post','ajax','patch'])){
 
-                return $this->redirect(['action' => 'index']);
+            $status = $this->Status->newEntity();
+            $status = $this->Status->patchEntity($status, $this->request->getData());
+           
+                if ($this->Status->save($status)) {
+                  
+                    return $this->response
+                    
+                     ->withType('application/json')
+                     ->withStatus(200)
+                     ->withStringBody(json_encode(['msg'=>'O status  foi cadastrado com sucesso.']));
+                 
+                }
+                return $this->response
+                ->withStatus(404)
+                 ->withType('application/json')
+                 ->withStringBody(json_encode(['msg'=>'O status não foi cadastrado.']));
+              
+            
+    
             }
-            $this->Flash->error(__('The status could not be saved. Please, try again.'));
-        }
-        $this->set(compact('status'));
     }
 
     /**

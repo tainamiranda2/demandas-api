@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Usuario Model
  *
- * @property \App\Model\Table\UsuarioTable&\Cake\ORM\Association\BelongsTo $Usuario
+ * @property \App\Model\Table\UsuariosTable&\Cake\ORM\Association\BelongsTo $Usuarios
  * @property \App\Model\Table\PapelTable&\Cake\ORM\Association\BelongsTo $Papel
  * @property \App\Model\Table\DemandasTable&\Cake\ORM\Association\HasMany $Demandas
  * @property \App\Model\Table\PapelTable&\Cake\ORM\Association\HasMany $Papel
