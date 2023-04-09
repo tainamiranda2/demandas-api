@@ -102,19 +102,29 @@ class DemandasController extends AppController
      */
     public function edit($id = null)
     {
-        $demanda = $this->Demandas->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $demanda = $this->Demandas->patchEntity($demanda, $this->request->getData());
-            if ($this->Demandas->save($demanda)) {
-                $this->Flash->success(__('The demanda has been saved.'));
+        if($this->request->is(['ajax','put'])){
+            $demandas=$this->Demandas
+                ->find('all')
+                ->where(['id'=>$id])
+                ->first();
 
-                return $this->redirect(['action' => 'index']);
+            $demandas= $this->Demandas->patchEntity($demandas, $this->request->getData());
+           
+                if ($this->Demandas->save($demandas)) {
+                  
+                    return $this->response
+                    
+                     ->withType('application/json')
+                     ->withStatus(200)
+                     ->withStringBody(json_encode(['msg'=>'A demandas  foi atualizado com sucesso.']));
+                 
+                }
+                return $this->response
+                ->withStatus(404)
+                 ->withType('application/json')
+                 ->withStringBody(json_encode(['msg'=>'A demanda não foi atualizado.']));
+    
             }
-            $this->Flash->error(__('The demanda could not be saved. Please, try again.'));
-        }
-        $this->set(compact('demanda'));
     }
 
     /**
@@ -127,13 +137,21 @@ class DemandasController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $demanda = $this->Demandas->get($id);
-        if ($this->Demandas->delete($demanda)) {
-            $this->Flash->success(__('The demanda has been deleted.'));
-        } else {
-            $this->Flash->error(__('The demanda could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
+       
+        $demandas=$this->Demandas
+                ->find('all')
+                ->where(['id'=>$id])
+                ->first();
+        if ($this->Demandas->delete($demandas)) {
+            return $this->response
+                    
+            ->withType('application/json')
+            ->withStatus(200)
+            ->withStringBody(json_encode(['msg'=>'A demanda foi deletada com sucesso.']));
+        } 
+        return $this->response
+        ->withStatus(404)
+         ->withType('application/json')
+         ->withStringBody(json_encode(['msg'=>'A demanda não foi deletado.']));
     }
 }

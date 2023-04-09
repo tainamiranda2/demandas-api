@@ -89,8 +89,6 @@ class SetorController extends AppController
                 ->withStatus(404)
                  ->withType('application/json')
                  ->withStringBody(json_encode(['msg'=>'O setor não foi cadastrado.']));
-              
-            
     
             }
     }
@@ -104,19 +102,29 @@ class SetorController extends AppController
      */
     public function edit($id = null)
     {
-        $setor = $this->Setor->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $setor = $this->Setor->patchEntity($setor, $this->request->getData());
-            if ($this->Setor->save($setor)) {
-                $this->Flash->success(__('The setor has been saved.'));
+        if($this->request->is(['ajax','put'])){
+            $setor=$this->Setor
+                ->find('all')
+                ->where(['id'=>$id])
+                ->first();
 
-                return $this->redirect(['action' => 'index']);
+            $setor= $this->Setor->patchEntity($setor, $this->request->getData());
+           
+                if ($this->Setor->save($setor)) {
+                  
+                    return $this->response
+                    
+                     ->withType('application/json')
+                     ->withStatus(200)
+                     ->withStringBody(json_encode(['msg'=>'O setor  foi atualizado com sucesso.']));
+                 
+                }
+                return $this->response
+                ->withStatus(404)
+                 ->withType('application/json')
+                 ->withStringBody(json_encode(['msg'=>'O setor não foi atualizado.']));
+    
             }
-            $this->Flash->error(__('The setor could not be saved. Please, try again.'));
-        }
-        $this->set(compact('setor'));
     }
 
     /**
@@ -129,13 +137,21 @@ class SetorController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $setor = $this->Setor->get($id);
+       
+        $setor=$this->Setor
+                ->find('all')
+                ->where(['id'=>$id])
+                ->first();
         if ($this->Setor->delete($setor)) {
-            $this->Flash->success(__('The setor has been deleted.'));
-        } else {
-            $this->Flash->error(__('The setor could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
+            return $this->response
+                    
+            ->withType('application/json')
+            ->withStatus(200)
+            ->withStringBody(json_encode(['msg'=>'O setor foi deletado com sucesso.']));
+        } 
+        return $this->response
+        ->withStatus(404)
+         ->withType('application/json')
+         ->withStringBody(json_encode(['msg'=>'O setor não foi deletado.']));
     }
 }

@@ -103,19 +103,29 @@ class UsuarioController extends AppController
      */
     public function edit($id = null)
     {
-        $usuario = $this->Usuario->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $usuario = $this->Usuario->patchEntity($usuario, $this->request->getData());
-            if ($this->Usuario->save($usuario)) {
-                $this->Flash->success(__('The usuario has been saved.'));
+        if($this->request->is(['ajax','put'])){
+            $usuario=$this->Usuario
+                ->find('all')
+                ->where(['id'=>$id])
+                ->first();
 
-                return $this->redirect(['action' => 'index']);
+            $usuario = $this->Usuario->patchEntity($usuario, $this->request->getData());
+           
+                if ($this->Usuario->save($usuario)) {
+                  
+                    return $this->response
+                    
+                     ->withType('application/json')
+                     ->withStatus(200)
+                     ->withStringBody(json_encode(['msg'=>'O usuario  foi atualizado com sucesso.']));
+                 
+                }
+                return $this->response
+                ->withStatus(404)
+                 ->withType('application/json')
+                 ->withStringBody(json_encode(['msg'=>'O usuario não foi atualizado.']));
+    
             }
-            $this->Flash->error(__('The usuario could not be saved. Please, try again.'));
-        }
-        $this->set(compact('usuario'));
     }
 
     /**
@@ -128,13 +138,21 @@ class UsuarioController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $usuario = $this->Usuario->get($id);
+       
+        $usuario=$this->Usuario
+                ->find('all')
+                ->where(['id'=>$id])
+                ->first();
         if ($this->Usuario->delete($usuario)) {
-            $this->Flash->success(__('The usuario has been deleted.'));
-        } else {
-            $this->Flash->error(__('The usuario could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
+            return $this->response
+                    
+            ->withType('application/json')
+            ->withStatus(200)
+            ->withStringBody(json_encode(['msg'=>'O usuario foi deletado com sucesso.']));
+        } 
+        return $this->response
+        ->withStatus(404)
+         ->withType('application/json')
+         ->withStringBody(json_encode(['msg'=>'O usuario não foi deletado.']));
     }
 }

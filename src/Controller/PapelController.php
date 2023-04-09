@@ -92,8 +92,6 @@ class PapelController extends AppController
                  ->withType('application/json')
                  ->withStringBody(json_encode(['msg'=>'O papel não foi cadastrado.']));
               
-            
-    
             }
     }
 
@@ -106,19 +104,29 @@ class PapelController extends AppController
      */
     public function edit($id = null)
     {
-        $papel = $this->Papel->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $papel = $this->Papel->patchEntity($papel, $this->request->getData());
-            if ($this->Papel->save($papel)) {
-                $this->Flash->success(__('The papel has been saved.'));
+        if($this->request->is(['ajax','put'])){
+            $papel=$this->Papel
+                ->find('all')
+                ->where(['id'=>$id])
+                ->first();
 
-                return $this->redirect(['action' => 'index']);
+            $papel = $this->Papel->patchEntity($papel, $this->request->getData());
+           
+                if ($this->Papel->save($papel)) {
+                  
+                    return $this->response
+                    
+                     ->withType('application/json')
+                     ->withStatus(200)
+                     ->withStringBody(json_encode(['msg'=>'O papel  foi atualizado com sucesso.']));
+                 
+                }
+                return $this->response
+                ->withStatus(404)
+                 ->withType('application/json')
+                 ->withStringBody(json_encode(['msg'=>'O papel não foi atualizado.']));
+    
             }
-            $this->Flash->error(__('The papel could not be saved. Please, try again.'));
-        }
-        $this->set(compact('papel'));
     }
 
     /**
@@ -131,13 +139,22 @@ class PapelController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $papel = $this->Papel->get($id);
+       
+        $papel=$this->Papel
+                ->find('all')
+                ->where(['id'=>$id])
+                ->first();
         if ($this->Papel->delete($papel)) {
-            $this->Flash->success(__('The papel has been deleted.'));
-        } else {
-            $this->Flash->error(__('The papel could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
+            return $this->response
+                    
+            ->withType('application/json')
+            ->withStatus(200)
+            ->withStringBody(json_encode(['msg'=>'O papel foi deletado com sucesso.']));
+        } 
+        return $this->response
+        ->withStatus(404)
+         ->withType('application/json')
+         ->withStringBody(json_encode(['msg'=>'O papel não foi deletado.']));
+      
     }
 }

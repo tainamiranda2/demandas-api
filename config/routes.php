@@ -73,32 +73,32 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/papel/view/id', ['controller' => 'Papel', 'action' => 'view', 'view']);
     $routes->connect('/papel/add', ['controller' => 'Papel', 'action' => 'add', 'add']);
     $routes->connect('/papel/edit/id/', ['controller' => 'Papel', 'action' => 'edit', 'edit']);
-    $routes->connect('/papel/delete/id/', ['controller' => 'Papel', 'action' => 'delete', 'index']);
+    $routes->connect('/papel/delete/id/', ['controller' => 'Papel', 'action' => 'delete', 'delete']);
   
     $routes->connect('/status', ['controller' => 'Status', 'action' => 'index', 'index']);
     $routes->connect('/status/view/id', ['controller' => 'Status', 'action' => 'view', 'view']);
     $routes->connect('/stasus/add', ['controller' => 'Status', 'action' => 'add', 'add']);
     $routes->connect('/status/edit/id/', ['controller' => 'Status', 'action' => 'edit', 'edit']);
-    $routes->connect('/status/delete/id/', ['controller' => 'Status', 'action' => 'delete', 'index']);
+    $routes->connect('/status/delete/id/', ['controller' => 'Status', 'action' => 'delete', 'delte']);
 
     $routes->connect('/setor', ['controller' => 'Setor', 'action' => 'index', 'index']);
     $routes->connect('/setor/view/id', ['controller' => 'Setor', 'action' => 'view', 'view']);
     $routes->connect('/setor/add', ['controller' => 'Setor', 'action' => 'add', 'add']);
     $routes->connect('/setor/edit/id/', ['controller' => 'Setor', 'action' => 'edit', 'edit']);
-    $routes->connect('/setor/delete/id/', ['controller' => 'Setor', 'action' => 'delete', 'index']);
+    $routes->connect('/setor/delete/id/', ['controller' => 'Setor', 'action' => 'delete', 'delete']);
 
     $routes->connect('/demandas', ['controller' => 'Demandas', 'action' => 'index', 'index']);
     $routes->connect('/demandas/view/id', ['controller' => 'Demandas', 'action' => 'view', 'view']);
     $routes->connect('/demandas/add', ['controller' => 'Demandas', 'action' => 'add', 'add']);
     $routes->connect('/demandas/edit/id/', ['controller' => 'Demandas', 'action' => 'edit', 'edit']);
-    $routes->connect('/demandas/delete/id/', ['controller' => 'Demandas', 'action' => 'delete', 'index']);
+    $routes->connect('/demandas/delete/id/', ['controller' => 'Demandas', 'action' => 'delete', 'delete']);
 
   
     $routes->connect('/usuario', ['controller' => 'Usuario', 'action' => 'index', 'index']);
     $routes->connect('/usuario/view/id', ['controller' => 'Usuario', 'action' => 'view', 'view']);
     $routes->connect('/usuario/add', ['controller' => 'Usuario', 'action' => 'add', 'add']);
     $routes->connect('/usuario/edit/id/', ['controller' => 'Usuario', 'action' => 'edit', 'edit']);
-    $routes->connect('/usuario/delete/id/', ['controller' => 'Usuario', 'action' => 'delete', 'index']);
+    $routes->connect('/usuario/delete/id/', ['controller' => 'Usuario', 'action' => 'delete', 'delete']);
 
     $routes->fallbacks(DashedRoute::class);
 });
