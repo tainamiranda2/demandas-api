@@ -52,4 +52,12 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
     }
+    public function beforeFilter(Event $event)
+{
+    parent::beforeFilter($event);
+
+    // Configure o cabeçalho "Access-Control-Allow-Origin" para permitir o acesso de qualquer domínio
+    $this->response->withHeader('Access-Control-Allow-Origin', '*');
+}
+
 }
