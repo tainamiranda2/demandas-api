@@ -68,4 +68,15 @@ return [
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
     ],
+    'Cors'=>[
+   
+            'AllowOrigin' => ['http://localhost:5173'],
+            'AllowCredentials' => true,
+            'AllowMethods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+            'AllowHeaders' => true,
+            'ExposeHeaders' => false,
+            'MaxAge' => 86400, // 1 day
+            'exceptionRenderer' => 'Cors\Error\AppExceptionRenderer',
+        
+    ]
 ];
