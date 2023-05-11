@@ -13,6 +13,7 @@
 ## edit/id - editar uma demanda
 ## post - criar uma demanda
 ## delete - deletar  uma demanda
+## search - pesquisar  uma demanda
 
 ## get - ver todos os status
 ## get/id - ver apenas um status
@@ -25,12 +26,15 @@
 ## edit/id - editar um usuario
 ## post - criar  um usuario
 ## delete - deletar  um usuario
+## search - pesquisar  um usuario
 
 ## get - ver apenas um  setor
 ## get/id - ver apenas um setor
 ## edit/id - editar um setor
 ## post - criar  um setor
 ## delete - deletar  um setor
+## search - pesquisar  um setor
+
 ## tenha o php na versão 7.2 e composer instado, de o composer install para baixar as atualizações e poder rodar o  projeto
 
 # essas configuações devem esta no seu config.php

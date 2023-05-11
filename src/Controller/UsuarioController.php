@@ -155,4 +155,34 @@ class UsuarioController extends AppController
          ->withType('application/json')
          ->withStringBody(json_encode(['msg'=>'O usuario não foi deletado.']));
     }
+
+    public function search()
+    {
+        if ($this->request->is('get')) { // Verifica se a solicitação é um GET
+            $keyword = $this->request->getQuery('keyword'); // Obtém a palavra-chave de pesquisa da consulta GET
+            
+            $usuarios = $this->Usuario->find()
+                ->where(['nome LIKE' => '%' . $keyword . '%']) // Adapte essa condição de acordo com seus requisitos de pesquisa
+                ->toArray();
+            
+            if ($usuarios) {
+                return $this->response
+                    ->withType('application/json')
+                    ->withStatus(200)
+                    ->withStringBody(json_encode($usuarios));
+            } else {
+                return $this->response
+                    ->withStatus(404)
+                    ->withType('application/json')
+                    ->withStringBody(json_encode(['msg' => 'Nenhum usuário encontrado.']));
+            }
+        } else {
+            return $this->response
+                ->withStatus(405)
+                ->withType('application/json')
+                ->withStringBody(json_encode(['msg' => 'Método não permitido.']));
+        }
+    }
+    
+
 }

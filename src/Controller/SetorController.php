@@ -154,4 +154,31 @@ class SetorController extends AppController
          ->withType('application/json')
          ->withStringBody(json_encode(['msg'=>'O setor não foi deletado.']));
     }
+      public function search()
+    {
+        if ($this->request->is('get')) { // Verifica se a solicitação é um GET
+            $keyword = $this->request->getQuery('keyword'); // Obtém a palavra-chave de pesquisa da consulta GET
+            
+            $setor = $this->Setor->find()
+                ->where(['nome_setor LIKE' => '%' . $keyword . '%']) // Adapte essa condição de acordo com seus requisitos de pesquisa
+                ->toArray();
+            
+            if ($setor) {
+                return $this->response
+                    ->withType('application/json')
+                    ->withStatus(200)
+                    ->withStringBody(json_encode($setor));
+            } else {
+                return $this->response
+                    ->withStatus(404)
+                    ->withType('application/json')
+                    ->withStringBody(json_encode(['msg' => 'Nenhum setor encontrado.']));
+            }
+        } else {
+            return $this->response
+                ->withStatus(405)
+                ->withType('application/json')
+                ->withStringBody(json_encode(['msg' => 'Método não permitido.']));
+        }
+    }
 }
